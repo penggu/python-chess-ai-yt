@@ -95,7 +95,7 @@ class Board:
         
         return False
 
-    def calc_moves(self, piece, row, col, bool=True):
+    def calc_moves_v0(self, piece, row, col, bool=True):
         '''
             Calculate all the possible (valid) moves of an specific piece on a specific position
         '''
@@ -424,6 +424,21 @@ class Board:
 
         elif isinstance(piece, King): 
             king_moves()
+
+    def calc_moves(self, piece, row, col, bool=True):
+        def piece_moves():
+            initial = Square(row, col)
+
+            possible_moves = [(x, y) for x in range(8) for y in range(8) if x != row or y != col]
+
+            for x, y in possible_moves:
+                final_piece = self.squares[x][y].piece
+                final = Square(x, y, final_piece)
+                move = Move(initial, final)
+                piece.add_move(move)
+
+        piece_moves()
+
 
     def _create(self):
         for row in range(ROWS):
