@@ -40,6 +40,9 @@ class Board:
         # keep track of the fullmove number
         self.fullmove_number = 1
 
+    def set_piece(self, pos, piece):
+        self.squares[pos[0]][pos[1]].set_piece(piece)
+
     def get_piece(self, pos):
         return self.squares[pos[0]][pos[1]]
 
