@@ -7,6 +7,9 @@ class Piece:
     def get_moves(self, board):
         # add code to get the possible moves for the piece
         return []
+    
+    def can_move(self, board, pos):
+        return pos in self.get_moves(board)
 
 class Pawn(Piece):
     def __init__(self, color, pos):
