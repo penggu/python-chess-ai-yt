@@ -1,14 +1,11 @@
 import unittest
 import pygame
 import sys
+
+from const import WIDTH, HEIGHT, FPS, ROWS, COLS, SQSIZE
 from board.board import Board
 from pieces.piece import Piece
 from players.human_player import HumanPlayer
-
-# constants
-WIDTH = 640
-HEIGHT = 480
-FPS = 30
 
 class ChessGame:
     def __init__(self, screen=None):
@@ -18,8 +15,8 @@ class ChessGame:
         pygame.display.set_caption("Chess")
 
         # load the images
-        self.board_image = pygame.image.load("board.png")
-        self.pieces_image = pygame.image.load("pieces.png")
+        # self.board_image = pygame.image.load("board.png")
+        # self.pieces_image = pygame.image.load("pieces.png")
 
         # create the chess board and the players
         self.board = Board()
