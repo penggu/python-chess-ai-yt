@@ -51,11 +51,3 @@ class Queen(Piece):
         # add code to get the possible moves for the queen
         return []
 
-class King(Piece):
-    def __init__(self, color, pos):
-        super().__init__(color, pos)
-        self.has_moved = False
-
-    def get_moves(self, board):
-        # add code to get the possible moves for the king
-        return []
