@@ -9,57 +9,65 @@ WIDTH = 640
 HEIGHT = 480
 FPS = 30
 
-# set up the game window
-pygame.init()
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Chess")
+class ChessGame:
+    def __init__(self):
+        # set up the game window
+        pygame.init()
+        self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
+        pygame.display.set_caption("Chess")
 
-# load the images
-board_image = pygame.image.load("board.png")
-pieces_image = pygame.image.load("pieces.png")
+        # load the images
+        self.board_image = pygame.image.load("board.png")
+        self.pieces_image = pygame.image.load("pieces.png")
 
-# create the chess board and the players
-board = Board()
-white_player = HumanPlayer("white")
-black_player = HumanPlayer("black")
+        # create the chess board and the players
+        self.board = Board()
+        self.white_player = HumanPlayer("white")
+        self.black_player = HumanPlayer("black")
+        self.current_player = self.white_player
 
-# set up the game loop
-clock = pygame.time.Clock()
-current_player = white_player
-while not board.is_game_over():
-    # handle events
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            sys.exit()
+        # set up the game loop
+        self.clock = pygame.time.Clock()
 
-    # ask the current player for their move
-    move = current_player.get_move(board)
+    def run(self):
+        while not self.board.is_game_over():
+            # handle events
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    sys.exit()
 
-    # make the move on the board
-    piece = board.get_piece(move.initial_pos)
-    board.move_piece(piece, move.final_pos)
+            # ask the current player for their move
+            move = self.current_player.get_move(self.board)
 
-    # update the current player
-    current_player = black_player if current_player == white_player else white_player
+            # make the move on the board
+            piece = self.board.get_piece(move.initial_pos)
+            self.board.move_piece(piece, move.final_pos)
 
-    # draw the game objects
-    screen.blit(board_image, (0, 0))
-    for row in range(8):
-        for col in range(8):
-            piece = board.get_piece((row, col))
-            if piece is not None:
-                piece_image = pieces_image.subsurface(piece.image_rect)
-                screen.blit(piece_image, (col*64, row*64))
+            # update the current player
+            self.current_player = self.black_player if self.current_player == self.white_player else self.white_player
 
-    # update the screen
-    pygame.display.flip()
+            # draw the game objects
+            self.screen.blit(self.board_image, (0, 0))
+            for row in range(8):
+                for col in range(8):
+                    piece = self.board.get_piece((row, col))
+                    if piece is not None:
+                        piece_image = self.pieces_image.subsurface(piece.image_rect)
+                        self.screen.blit(piece_image, (col*64, row*64))
 
-    # control the framerate
-    clock.tick(FPS)
+            # update the screen
+            pygame.display.flip()
 
-# print the winner of the game
-winner = board.get_winner()
-if winner is None:
-    print("The game ended in a draw.")
-else:
-    print(f"The winner is {winner}.")
+            # control the framerate
+            self.clock.tick(FPS)
+
+        # print the winner of the game
+        winner = self.board.get_winner()
+        if winner is None:
+            print("The game ended in a draw.")
+        else:
+            print(f"The winner is {winner}.")
+
+if __name__ == "__main__":
+    game = ChessGame()
+    game.run()
