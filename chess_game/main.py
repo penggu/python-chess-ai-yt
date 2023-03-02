@@ -1,3 +1,4 @@
+import unittest
 import pygame
 import sys
 from board.board import Board
@@ -10,10 +11,10 @@ HEIGHT = 480
 FPS = 30
 
 class ChessGame:
-    def __init__(self):
+    def __init__(self, screen=None):
         # set up the game window
         pygame.init()
-        self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
+        self.screen = screen or pygame.display.set_mode((WIDTH, HEIGHT))
         pygame.display.set_caption("Chess")
 
         # load the images
@@ -68,6 +69,12 @@ class ChessGame:
         else:
             print(f"The winner is {winner}.")
 
+class ChessGameTest(unittest.TestCase):
+    def test_game(self):
+        screen = pygame.Surface((WIDTH, HEIGHT))
+        game = ChessGame(screen)
+        game.run()
+        # add assertions here to test the game
+
 if __name__ == "__main__":
-    game = ChessGame()
-    game.run()
+    unittest.main()
